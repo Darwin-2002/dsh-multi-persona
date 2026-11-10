@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Multi-persona switcher",
+    "description": "Switches the assistant's persona inside one window by how you address it, and can put several on stage at once. Each persona is a folder with its own prompt and avatar; add or remove them without touching code. Formerly published as dsh-persona-router; internal paths still use the persona-router prefix."
+  }
+}

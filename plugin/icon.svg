@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Persona Router">
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="#1E2A38"/>
+  <circle cx="26" cy="25" r="11" stroke="#7FC8F8" stroke-width="3.2"/>
+  <circle cx="26" cy="22" r="3.1" fill="#7FC8F8"/>
+  <path d="M20.4 30.2c1.3 1.7 3.3 2.7 5.6 2.7s4.3-1 5.6-2.7" stroke="#7FC8F8" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M38 41.5a11 11 0 1 1 8.6 4.1" stroke="#F5C26B" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M43.4 39.4l3.4 6.4 6.5-3.2" stroke="#F5C26B" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

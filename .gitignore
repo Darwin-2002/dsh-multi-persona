@@ -147,3 +147,10 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# ---- 本仓库追加 ----
+# 本机数据：状态、备份、从宿主里抽出来的源码，都不进公开仓库
+backups/
+research/
+*.bak
+*.bak-*

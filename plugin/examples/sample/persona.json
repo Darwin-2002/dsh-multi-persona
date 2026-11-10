@@ -1,0 +1,8 @@
+{
+  "id": "sample",
+  "name": "示例",
+  "aliases": ["示例", "Sample"],
+  "color": "#8AB4F8",
+  "order": 900,
+  "enabled": true
+}

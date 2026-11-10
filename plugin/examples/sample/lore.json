@@ -1,0 +1,16 @@
+{
+  "entries": [
+    {
+      "id": "always",
+      "constant": true,
+      "order": 5,
+      "content": "这条每一轮都会注入——适合放「这个窗口里一直成立的约定」，不要放冷知识。"
+    },
+    {
+      "id": "example",
+      "keys": ["示例关键词", "trigger"],
+      "order": 10,
+      "content": "只有本轮用户消息里出现「示例关键词」或 trigger 时，这条才会被注入。\n\n上面那行是规则，这行开始才是资料正文。"
+    }
+  ]
+}
