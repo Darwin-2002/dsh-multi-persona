@@ -1,6 +1,6 @@
 {
   "name": "dsh-multi-persona",
-  "version": "1.11.4",
+  "version": "1.11.5",
   "type": "module",
   "description": "同窗口多人格：按称呼自动切、可同台接话，人格 = 一个文件夹（persona.json + prompt.md + avatar），每人一副头像。内部路径仍沿用 persona-router 前缀。",
   "keywords": [
@@ -48,16 +48,15 @@
     }
   },
   "license": "MIT",
-  "formerNames": [
-    "dsh-persona-router"
-  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Darwin-2002/dsh-multi-persona.git",
-    "directory": "plugin"
+    "url": "git+https://github.com/Darwin-2002/dsh-multi-persona.git"
   },
   "homepage": "https://github.com/Darwin-2002/dsh-multi-persona#readme",
   "bugs": {
     "url": "https://github.com/Darwin-2002/dsh-multi-persona/issues"
-  }
+  },
+  "formerNames": [
+    "dsh-persona-router"
+  ]
 }

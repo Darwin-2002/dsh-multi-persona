@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { testing } from '../plugin/index.js'
+import { testing } from '../index.js'
 
 const { detectPersona, lastUserText, personaBlock, loadPersonas, readState, writeState, currentPersona, sniffImage, personaRoot } = testing
 const { OFF, normalizeCwd, matchLore, loreBlock } = testing
@@ -41,7 +41,7 @@ const userMessage = (text) => ({ role: 'user', content: [{ type: 'text', text }]
 console.log('=== 清单文件 ===')
 
 const here = dirname(fileURLToPath(import.meta.url))
-const pluginDir = join(here, '..', 'plugin')
+const pluginDir = join(here, '..')
 
 function hasBom(path) {
   const bytes = readFileSync(path)

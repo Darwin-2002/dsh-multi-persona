@@ -4,7 +4,7 @@
  * 免得改了判定却忘了改解释（2026-11-09 就撞过一次：解释说「算」，真判定说「不切」）。
  * 用法：node test/explain.mjs [一句话]
  */
-import { testing } from '../plugin/index.js'
+import { testing } from '../index.js'
 
 const { detectPersona, loadPersonas, explainAliases } = testing
 

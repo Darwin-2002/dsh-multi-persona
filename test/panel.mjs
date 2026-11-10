@@ -11,7 +11,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const here = dirname(fileURLToPath(import.meta.url))
-const source = readFileSync(join(here, '..', 'plugin', 'client.js'), 'utf8')
+const source = readFileSync(join(here, '..', 'client.js'), 'utf8')
 
 let captured = null
 globalThis.window = {

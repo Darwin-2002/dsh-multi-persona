@@ -7,7 +7,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const here = dirname(fileURLToPath(import.meta.url))
-const source = readFileSync(join(here, '..', 'plugin', 'client.js'), 'utf8')
+const source = readFileSync(join(here, '..', 'client.js'), 'utf8')
 
 // 假装是浏览器：抓住 __ModuleLoader__.load 传进来的定义
 let captured = null

@@ -154,3 +154,6 @@ backups/
 research/
 *.bak
 *.bak-*
+
+# 本地运行用的拷贝（发布时包在仓库根）
+plugin/
