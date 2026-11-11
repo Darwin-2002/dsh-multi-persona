@@ -188,6 +188,15 @@ check('enabled:false 的人格被跳过', () => {
   writeFileSync(join(tempHome, 'personas', 'off', 'prompt.md'), '# off\n')
   if (loadPersonas().map((p) => p.id).includes('off')) throw new Error('off 不应该在列表里')
 })
+// 面板视图必须能看到停用项：停用后那一行消失，就再没有地方点回来（2026-11-11 实际踩到）
+check('面板视图（includeDisabled）保留停用的人格，且它仍叫不出来', () => {
+  const all = loadPersonas(true)
+  const off = all.find((p) => p.id === 'off')
+  if (!off) throw new Error('停用的人格必须留在面板列表里')
+  if (off.enabled !== false) throw new Error(`off.enabled 应为 false，实得 ${String(off.enabled)}`)
+  if (detectPersona('关，你在吗', loadPersonas())?.id === 'off') throw new Error('停用的人格不该被判定命中')
+  if (detectPersona('关，你在吗', all)?.id !== 'off') throw new Error('传入全量列表时判定应能找到它（用于验证数据本身没坏）')
+})
 
 // ---- 5. 正文里的 {{...}} 原样保留（验收 6） ----------------------------
 

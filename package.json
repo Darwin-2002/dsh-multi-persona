@@ -1,6 +1,6 @@
 {
   "name": "dsh-multi-persona",
-  "version": "1.11.5",
+  "version": "1.11.6",
   "type": "module",
   "description": "同窗口多人格：按称呼自动切、可同台接话，人格 = 一个文件夹（persona.json + prompt.md + avatar），每人一副头像。内部路径仍沿用 persona-router 前缀。",
   "keywords": [

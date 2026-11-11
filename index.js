@@ -425,15 +425,20 @@ function userAvatarView() {
 /**
  * 扫描 personas 目录。每次调用都会比一次文件签名：目录内容、三份文件的 mtime 都没变就直接用缓存，
  * 所以热路径上只花几次 statSync。
+ *
+ * includeDisabled=false（默认）只回能用的那几个——判定、注入、当前人格全靠它，
+ * 停用的人格必须在这里就被挡住，才不会被叫到。
+ * 面板要的是 TRUE：停用的人格也得留在列表里，否则那一行消失，就再没有地方把它点回来。
  */
-function loadPersonas() {
+function loadPersonas(includeDisabled = false) {
+  const pick = (list) => (includeDisabled ? list : list.filter((persona) => persona.enabled !== false))
   const root = personaRoot()
   let entries = []
   try {
     entries = readdirSync(root, { withFileTypes: true })
   } catch {
     cache = { signature: 'missing', personas: [] }
-    return cache.personas
+    return pick(cache.personas)
   }
   const ids = entries
     .filter((entry) => entry.isDirectory())
@@ -454,15 +459,15 @@ function loadPersonas() {
     )
   }
   const signature = parts.join('|')
-  if (signature === cache.signature) return cache.personas
+  if (signature === cache.signature) return pick(cache.personas)
 
   const personas = []
   for (const id of ids) {
     const dir = join(root, id)
     const meta = readJson(join(dir, 'persona.json'), null)
-    // 缺 persona.json 或明确 enabled:false ⇒ 跳过；缺 prompt.md ⇒ 跳过后仍要能启动，记一条告警。
+    // 缺 persona.json ⇒ 跳过（不是人格目录）；缺 prompt.md ⇒ 跳过后仍要能启动，记一条告警。
+    // enabled:false 不再在这里截断，只落成字段——截断由末尾的 pick() 统一做。
     if (!meta || typeof meta !== 'object') continue
-    if (meta.enabled === false) continue
     let body = ''
     try {
       body = readFileSync(join(dir, 'prompt.md'), 'utf8')
@@ -488,6 +493,7 @@ function loadPersonas() {
       aliases,
       color: typeof meta.color === 'string' && meta.color.trim() !== '' ? meta.color.trim() : '#8AB4F8',
       order: Number.isFinite(Number(meta.order)) ? Number(meta.order) : 1000,
+      enabled: meta.enabled !== false,
       body: body.length > MAX_PROMPT_CHARS ? `${body.slice(0, MAX_PROMPT_CHARS)}\n\n（人格正文过长已截断。）` : body,
       // persona.json 里可选的后缀指令：跟在正文后面注入，对齐角色卡的 post_history_instructions
       suffix: typeof meta.suffix === 'string' ? meta.suffix.trim() : '',
@@ -503,7 +509,7 @@ function loadPersonas() {
   }
   personas.sort((a, b) => a.order - b.order || a.id.localeCompare(b.id))
   cache = { signature, personas }
-  return personas
+  return pick(personas)
 }
 
 /** 对外暴露的人格视图（不含正文）。面板要编辑别名与启用状态，所以这两项也必须带上。 */
@@ -1057,13 +1063,14 @@ export function apply(ctx, config = {}) {
           const method = req.method ?? 'GET'
           try {
             if (route === '/health' && method === 'GET') {
-              const personas = loadPersonas()
+              // 面板要看全部（含停用），所以这里带 true
+              const personas = loadPersonas(true)
               const reports = {}
               for (const [key, value] of clientReports) reports[key] = value
               json(res, 200, {
                 ok: true,
                 plugin: 'dsh-multi-persona',
-                codeVersion: 'r17-rename',
+                codeVersion: 'r18-disable-panel',
                 enabled: isEnabled(),
                 personaRoot: personaRoot(),
                 statePath: statePath(),
@@ -1103,7 +1110,8 @@ export function apply(ctx, config = {}) {
                 workspaceKey: workspaceKey === '' ? null : workspaceKey,
                 workspacePick: typeof workspacePick === 'string' ? workspacePick : null,
                 workspacePersona,
-                personas: personas.map(publicView),
+                // 列表给面板看：含停用项，否则停用后就再也点不回来（判定与注入仍只用启用的）
+                personas: loadPersonas(true).map(publicView),
                 // 历史消息用：这一轮是谁答的。没记到的轮次由客户端回落到 defaultPersona。
                 history: sessionId !== '' ? state.history[sessionId] ?? [] : [],
                 personaRoot: personaRoot(),
